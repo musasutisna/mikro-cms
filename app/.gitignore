@@ -1,0 +1,11 @@
+# Logs
+logs
+*.log
+# enviroment file
+.env
+# entrypoint shell script
+entrypoint.sh
+# denied node_modules
+node_modules
+# debug log from npm
+npm-debug.log

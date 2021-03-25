@@ -1,0 +1,37 @@
+version: "3.7"
+services:
+  mikro-cms-mongodb:
+    container_name: mikro-cms-mongodb
+    image: mikro-cms-mongodb:0.0.1
+    build: ./mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongodb/mongod.log:/etc/mongod.log
+      - ./mongodb/data:/data/db
+      - ./mongodb/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    env_file:
+      - ./mongodb/.env
+    networks:
+      - mikro-cms
+    command:
+      - '--auth'
+  mikro-cms-nodejs:
+    depends_on:
+      - mikro-cms-mongodb
+    container_name: mikro-cms-nodejs
+    image: mikro-cms-nodejs:0.0.1
+    build: ./nodejs
+    ports:
+      - 3000:3000
+    volumes:
+      - ./app:/home/node/app
+    env_file:
+      - ./app/.env
+    networks:
+      - mikro-cms
+    entrypoint: ['bash', './entrypoint.sh']
+networks:
+  mikro-cms:
+    name: mikro-cms
+    driver: bridge
