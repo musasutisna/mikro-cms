@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "setup": "node ./bin/setup"
+    "dev": "nodemon ./bin/www"
+  },
+  "devDependencies": {
+    "nodemon": "~2.0.7"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
