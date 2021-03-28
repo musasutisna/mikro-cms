@@ -1,0 +1,111 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+const chokidar = require('chokidar');
+
+/**
+ * Path root application.
+ */
+const AppPath = process.cwd();
+
+/**
+ * Directories to be watch on development.
+ */
+const watchList = [
+  AppPath + '/node_modules/@mikro-cms',
+  AppPath + '/locale',
+  AppPath + '/routes',
+  AppPath + '/views',
+  AppPath + '/models'
+];
+
+/**
+ * Reload changed source file from cache.
+ *
+ * @param   string
+ * @return  void
+ */
+function reloadFileFromCache(cacheId) {
+  delete require.cache[cacheId];
+
+  console.log('Reload source: ' + cacheId);
+
+  restartApp();
+}
+
+/**
+ * Delete source file from cache.
+ *
+ * @param   string
+ * @return  void
+ */
+ function deleteFileFromCache(cacheId) {
+  delete require.cache[cacheId];
+
+  console.log('Deleted source: ' + cacheId);
+
+  restartApp();
+}
+
+/**
+ * Create watcher for listed directories
+ */
+watchList.forEach(path => {
+  const watcher = chokidar.watch(path);
+
+  watcher.on('ready', () => {
+    watcher.on('add', restartApp);
+    watcher.on('change', reloadFileFromCache);
+    watcher.on('unlink', deleteFileFromCache);
+  });
+});
+
+/**
+ * App state
+ *
+ * 0 for running
+ * 1 for error
+ * null for not started
+ */
+var AppState = null;
+
+/**
+ * Start express app www.
+ *
+ * @return  void
+ */
+function startApp() {
+  try {
+    require('./www');
+
+    AppState = 0;
+
+    console.log('App started');
+  } catch (err) {
+    AppState = 1;
+
+    console.error(err);
+  }
+}
+
+/**
+ * Restart app if be needed.
+ *
+ * @return  void
+ */
+function restartApp() {
+  if (AppState === 1) {
+    // app have traying started so delete cache
+    delete require.cache[AppPath + '/bin/www'];
+
+    startApp();
+  }
+}
+
+/**
+ * Running app.
+ */
+startApp();
