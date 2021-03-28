@@ -5,11 +5,17 @@
  */
 
 const chokidar = require('chokidar');
+const child = require('child_process');
 
 /**
  * Path root application.
  */
 const AppPath = process.cwd();
+
+/**
+ * Current running process.
+ */
+var currentChild = null;
 
 /**
  * Directories to be watch on development.
@@ -23,28 +29,24 @@ const watchList = [
 ];
 
 /**
- * Reload changed source file from cache.
+ * Reload changed source file.
  *
  * @param   string
  * @return  void
  */
-function reloadFileFromCache(cacheId) {
-  delete require.cache[cacheId];
-
+function reloadFile(cacheId) {
   console.log('Reload source: ' + cacheId);
 
   restartApp();
 }
 
 /**
- * Delete source file from cache.
+ * Delete source file.
  *
  * @param   string
  * @return  void
  */
- function deleteFileFromCache(cacheId) {
-  delete require.cache[cacheId];
-
+ function deleteFile(cacheId) {
   console.log('Deleted source: ' + cacheId);
 
   restartApp();
@@ -58,19 +60,10 @@ watchList.forEach(path => {
 
   watcher.on('ready', () => {
     watcher.on('add', restartApp);
-    watcher.on('change', reloadFileFromCache);
-    watcher.on('unlink', deleteFileFromCache);
+    watcher.on('change', reloadFile);
+    watcher.on('unlink', deleteFile);
   });
 });
-
-/**
- * App state
- *
- * 0 for running
- * 1 for error
- * null for not started
- */
-var AppState = null;
 
 /**
  * Start express app www.
@@ -78,15 +71,14 @@ var AppState = null;
  * @return  void
  */
 function startApp() {
+  // stop current process
+  if (currentChild) {
+    currentChild.kill();
+  }
+
   try {
-    require('./www');
-
-    AppState = 0;
-
-    console.log('App started');
+    currentChild = child.fork(AppPath + '/bin/www');
   } catch (err) {
-    AppState = 1;
-
     console.error(err);
   }
 }
@@ -97,12 +89,7 @@ function startApp() {
  * @return  void
  */
 function restartApp() {
-  if (AppState === 1) {
-    // app have traying started so delete cache
-    delete require.cache[AppPath + '/bin/www'];
-
-    startApp();
-  }
+  startApp();
 }
 
 /**
