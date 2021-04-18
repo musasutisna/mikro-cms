@@ -7,7 +7,7 @@
     "dev": "node ./bin/dev"
   },
   "dependencies": {
-    "@mikro-cms/core": "~0.0.2",
+    "@mikro-cms/core": "~0.0.3",
     "@mikro-cms/models": "~0.0.5",
     "@mikro-cms/theme-web-stories": "~0.0.1",
     "cookie-parser": "~1.4.4",
