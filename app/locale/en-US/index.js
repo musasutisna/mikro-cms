@@ -1,3 +1,4 @@
 module.exports = {
-  'exception': require('./exception')
-}
+  'exception': require('./exception'),
+  'user': require('./user')
+};
