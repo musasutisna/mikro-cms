@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
 var mikroCMS = require('@mikro-cms/core');
 
 var indexRouter = require('./routes/index');
@@ -20,6 +21,29 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+
+// enable specific cors
+var allowedOrigins = [
+  process.env.APP_URL,
+  // 'http://localhost:4200'
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests with no origin
+    // (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) === -1) {
+      var msg = 'The CORS policy for this site does not ' +
+                'allow access from the specified Origin.';
+
+      return callback(new Error(msg), false);
+    }
+
+    return callback(null, true);
+  }
+}));
 
 // mikro-cms setup
 // wrap handler after router to execute after mikro-cms
