@@ -21,7 +21,9 @@ var currentChild = null;
  * Directories to be watch on development.
  */
 const watchList = [
-  AppPath + '/node_modules/@mikro-cms',
+  AppPath + '/node_modules/@mikro-cms/core',
+  AppPath + '/node_modules/@mikro-cms/models',
+  AppPath + '/node_modules/@mikro-cms/api-v1',
   AppPath + '/locale',
   AppPath + '/routes',
   AppPath + '/views',
