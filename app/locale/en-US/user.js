@@ -1,4 +1,6 @@
 module.exports = {
+  'fullname_required': 'full name could not be empty',
+  'fullname_limit': 'full name length must 1 to 128 character',
   'email_required': 'email could not be empty',
   'email_format': 'email is not valid',
   'email_taken': 'email has been used by other user',
