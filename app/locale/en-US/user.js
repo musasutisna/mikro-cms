@@ -1,4 +1,5 @@
 module.exports = {
+  'user_id_required': 'user id could not be empty',
   'fullname_required': 'full name could not be empty',
   'fullname_limit': 'full name length must 1 to 128 character',
   'email_required': 'email could not be empty',
@@ -13,6 +14,15 @@ module.exports = {
   'invalid_username_or_password': 'username or password is wrong',
   'login_success': 'login success',
   'login_failed': 'login failed',
+  'logout_success': 'logout success',
+  'logout_failed': 'logout failed',
   'register_success': 'register success',
-  'register_failed': 'register failed'
+  'register_failed': 'register failed',
+  'add_new_user_success': 'success add new user',
+  'add_new_user_failed': 'failed to add new user',
+  'user_not_found': 'user could not be found',
+  'edit_user_success': 'success edit user',
+  'edit_user_failed': 'failed to edit user',
+  'delete_user_success': 'success de-active user',
+  'delete_user_failed': 'failed to re-active user'
 };
