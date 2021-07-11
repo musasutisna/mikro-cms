@@ -1,5 +1,6 @@
 module.exports = {
   'exception': require('./exception'),
   'user': require('./user'),
-  'api': require('./api')
+  'api': require('./api'),
+  'page': require('./page')
 };
