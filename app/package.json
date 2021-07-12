@@ -7,11 +7,12 @@
     "dev": "node ./bin/dev"
   },
   "dependencies": {
-    "@mikro-cms/api-v1": "~0.0.7",
-    "@mikro-cms/core": "~0.0.13",
-    "@mikro-cms/models": "~0.0.12",
-    "@mikro-cms/theme-mikro-panel": "~0.0.2",
-    "@mikro-cms/theme-web-stories": "~0.0.2",
+    "@mikro-cms/api-v1": "~0.0.8",
+    "@mikro-cms/api-web-stories": "^0.0.1",
+    "@mikro-cms/core": "~0.0.14",
+    "@mikro-cms/models": "~0.0.13",
+    "@mikro-cms/theme-mikro-panel": "~0.0.3",
+    "@mikro-cms/theme-web-stories": "~0.0.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
