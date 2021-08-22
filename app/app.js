@@ -18,7 +18,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {
+  maxAge: app.get('env') === 'production' ? process.env.PUBLIC_MAX_AGE : '0'
+}));
 
 app.use('/', indexRouter);
 
